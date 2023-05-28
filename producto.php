@@ -45,57 +45,65 @@ if (basename($_SERVER['PHP_SELF']) === 'form.php' && !isset($_SESSION['username'
     </nav>
 
     <main class="contenedor">
-    <?php
-    // Obtener el ID del producto enviado por GET
-    $idProducto = $_GET['id'] ?? 0;
+        <?php
+        // Obtener el ID del producto enviado por GET
+        $idProducto = $_GET['id'] ?? 0;
 
-    // Validar que el ID sea un número entero válido
-    if (!is_numeric($idProducto)) {
-        echo "ID de producto inválido.";
-        exit;
-    }
+        // Validar que el ID sea un número entero válido
+        if (!is_numeric($idProducto)) {
+            echo "ID de producto inválido.";
+            exit;
+        }
 
-    // Conexión a la base de datos
-    $conexion = new mysqli('localhost', 'root', '', 'ItverAmarillo');
-    if ($conexion->connect_error) {
-        die("Error de conexión: " . $conexion->connect_error);
-    }
+        // Conexión a la base de datos
+        $conexion = new mysqli('localhost', 'root', '', 'ItverAmarillo');
+        if ($conexion->connect_error) {
+            die("Error de conexión: " . $conexion->connect_error);
+        }
 
-    // Consulta para obtener los detalles del producto
-    $sql = "SELECT p.nombre, p.precio, p.descripcion, p.imagen, cat.nombreCategoria AS categoria 
+        // Consulta para obtener los detalles del producto
+        $sql = "SELECT p.nombre, p.precio, p.descripcion, p.imagen, cat.nombreCategoria AS categoria 
             FROM productos p
             INNER JOIN categorias cat ON p.categoriaId = cat.idCategoria
             WHERE p.idProducto = $idProducto";
 
-    $resultado = $conexion->query($sql);
+        $resultado = $conexion->query($sql);
 
-    // Verificar si se encontró el producto
-    if ($resultado && $resultado->num_rows > 0) {
-        $producto = $resultado->fetch_assoc();
-        $nombre = $producto['nombre'];
-        $precio = $producto['precio'];
-        $descripcion = $producto['descripcion'];
-        $imagen = $producto['imagen'];
-        $categoria = $producto['categoria'];
-    ?>
+        // Verificar si se encontró el producto
+        if ($resultado && $resultado->num_rows > 0) {
+            $producto = $resultado->fetch_assoc();
+            $nombre = $producto['nombre'];
+            $precio = $producto['precio'];
+            $descripcion = $producto['descripcion'];
+            $imagen = $producto['imagen'];
+            $categoria = $producto['categoria'];
+            ?>
 
-    
 
-    <div class="contenedor">
-        <h1><?php echo $nombre; ?></h1>
-        <div class="camisa">
-            <img class="camisa__imagen" src="<?php echo $imagen; ?>" alt="Imagen del Producto">
-            <p class="camisa__contenido">$<?php echo $precio; ?></p>
-            <p class="camisa__contenido"><?php echo $descripcion; ?></p>
-            <p class="camisa__contenido"><?php echo $categoria; ?></p>
-        </div>
-    </div>
 
-    <?php
-    } else {
-        echo "No se encontró el producto.";
-    }
-    ?>
+            <div class="contenedor">
+                <h1>
+                    <?php echo $nombre; ?>
+                </h1>
+                <div class="camisa">
+                    <img class="camisa__imagen" src="<?php echo $imagen; ?>" alt="Imagen del Producto">
+                    <p class="camisa__contenido__precio">$
+                        <?php echo $precio; ?>
+                    </p>
+                    <p class="camisa__contenido">
+                        <?php echo $descripcion; ?>
+                    </p>
+                    <p class="camisa__contenido__categoria">
+                        <?php echo $categoria; ?>
+                    </p>
+                </div>
+            </div>
+
+            <?php
+        } else {
+            echo "No se encontró el producto.";
+        }
+        ?>
 
 
     </main>

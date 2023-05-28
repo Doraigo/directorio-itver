@@ -141,6 +141,7 @@ h3 {
 .producto {
     background-color: var(--celadon);
     padding: 1rem;
+    font-family: var(--fuentePrincipal);
 }
 
 .producto__nombre {
@@ -159,6 +160,7 @@ h3 {
     margin: 1rem 0;
     text-align: center;
     line-height: 1.2;
+    font-size: 4rem;
 }
 
 .producto-detalle__imagen-container {
@@ -173,27 +175,19 @@ h3 {
 }
 
 .producto__descripcion {
-
     font-family: var(--fuentePrincipal);
-
     margin: 1rem 0;
-
     text-align: center;
-
     line-height: 1.2;
-
+    font-size: 2.5rem;
 }
-s
-.producto__categoria {
 
+s .producto__categoria {
     font-family: var(--fuentePrincipal);
-
     margin-top: 4rem 0;
-
     text-align: center;
-
     line-height: 1.2;
-
+    font-size: 3rem;
 }
 
 
@@ -211,12 +205,12 @@ s
     background-size: cover;
 }
 
-.grafico--node {
+/*.grafico--node {
     background-image: url(../img/grafico2.jpg);
     grid-row: 8 / 9;
     background-repeat: no-repeat;
     background-size: cover;
-}
+}*/
 
 @media (min-width: 768px) {
     .grafico--node {
@@ -276,13 +270,47 @@ s
     .camisa {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(3, 1fr);
         column-gap: 2rem;
+        row-gap: 0.5rem;
+
     }
 }
 
-.camisa__contenido,
-p {
+.camisa__contenido {
     color: var(--oscuro);
+    font-family: var(--fuentePrincipal);
+    font-size: 4rem;
+    grid-column: 2/3;
+    grid-row: -2/-3;
+    text-align: center;
+    margin: auto;
+}
+
+.camisa__imagen {
+    margin: auto;
+    grid-column: 1 / 2;
+    grid-row: 1/4;
+}
+
+.camisa__contenido__precio {
+    color: var(--oscuro);
+    font-family: var(--fuentePrincipal);
+    margin: auto;
+    font-size: 8rem;
+    grid-column: 2/3;
+    grid-row: 1 / 2;
+    margin: 2rem;
+    text-align: center;
+}
+
+.camisa__contenido__categoria {
+    color: var(--oscuro);
+    font-family: var(--fuentePrincipal);
+    margin: auto;
+    font-size: 6rem;
+    grid-column: 2/3;
+    grid-row: -2/ -1;
 }
 
 .formulario {
