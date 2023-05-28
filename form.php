@@ -1,3 +1,14 @@
+<?php
+// Iniciar sesión
+session_start();
+
+// Verificar si no hay una sesión activa
+if (!isset($_SESSION['username'])) {
+    // Redireccionar al usuario a la página de inicio de sesión
+    header("Location: login.html");
+    exit;
+}
+?>
 <!DOCTYPE html>
 <html>
 
@@ -7,16 +18,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formulario de alta de productos</title>
     <link rel="stylesheet" href="css/normalize.css">
-    <link rel="shortcut icon" href="img/favicon.png" <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="shortcut icon" href="img/favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Krub&family=Staatliches&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="css/styles.css">
-
 </head>
 
 <body>
     <h1>Formulario de alta de productos</h1>
-    <form action="guardar_producto.php" method="POST">
+    <form action="validarForm.php" method="POST" enctype="multipart/form-data">
         <label for="nombre">Nombre:</label>
         <input type="text" id="nombre" name="nombre" required><br><br>
 
@@ -27,13 +38,11 @@
         <textarea id="descripcion" name="descripcion" required></textarea><br><br>
 
         <label for="imagen">Imagen:</label>
-        <input type="text" id="imagen" name="imagen" required><br><br>
+        <input type="file" id="imagen" name="imagen" required><br><br>
 
         <label for="categoria">Categoría:</label>
         <select id="categoria" name="categoria" required>
-            <option value="1">Categoría 1</option>
-            <option value="2">Categoría 2</option>
-            <!-- Opciones adicionales de categorías para cuando sepamos cuales seran-->
+            <?php include 'obtener_categoria.php'; ?>
         </select><br><br>
 
         <input type="submit" value="Guardar producto">
