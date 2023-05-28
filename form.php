@@ -45,26 +45,43 @@ if (basename($_SERVER['PHP_SELF']) === 'form.php' && !isset($_SESSION['username'
 
 
     <h1>Formulario de alta de productos</h1>
+
+    <div class="form__flex">
+            <div class="form__contenedor">
     <form action="validarForm.php" method="POST" enctype="multipart/form-data">
+        
+        <div class="form__campo">
         <label for="nombre">Nombre:</label>
         <input type="text" id="nombre" name="nombre" required><br><br>
+        </div>
 
+        <div class="form__campo">
         <label for="precio">Precio:</label>
         <input type="number" id="precio" name="precio" required><br><br>
+        </div>
 
+        <div class="form__campo">
         <label for="descripcion">Descripcion:</label>
         <textarea id="descripcion" name="descripcion" required></textarea><br><br>
+        </div>
 
+        <div class="form__campo">
         <label for="imagen">Imagen:</label>
         <input type="file" id="imagen" name="imagen" required><br><br>
+        </div>
 
+        <div class="form__campo">
         <label for="categoria">Categoría:</label>
         <select id="categoria" name="categoria" required>
             <?php include 'obtener_categoria.php'; ?>
         </select><br><br>
-
+        </div>
+        <div class="form__campo">
         <input type="submit" value="Guardar producto">
+        </div>
     </form>
+    </div>
+    </div>
 </body>
 
 </html>

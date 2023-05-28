@@ -227,27 +227,28 @@ h3 {
 
 /**.bloques**/
 
-.bloques{
+.bloques {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 2rem;
 }
-@media (min-width: 768px) { 
-    .bloques{
+
+@media (min-width: 768px) {
+    .bloques {
         grid-template-columns: repeat(4, 1fr);
     }
 }
 
-.bloque{
+.bloque {
     text-align: center;
 }
 
-.bloque__titulo{
+.bloque__titulo {
     margin: 0;
 }
 
 /** Pagina del Producto **/
-@media (min-width: 768px) { 
+@media (min-width: 768px) {
     .camisa {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
@@ -255,23 +256,25 @@ h3 {
     }
 }
 
-.camisa__contenido,p{
+.camisa__contenido,
+p {
     color: var(--oscuro);
 }
 
-.formulario{
+.formulario {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 2rem;
 
 }
 
-.formulario__campo{
+.formulario__campo {
     border-color: var(--oscuro);
     border-width: 1rem;
     border-style: solid;
 
-    border:1rem solid var(--oscuro); /** Manera Resumida, toma primero el width, luego el style y el color al ultimo**/
+    border: 1rem solid var(--oscuro);
+    /** Manera Resumida, toma primero el width, luego el style y el color al ultimo**/
     background-color: transparent;
     color: var(--oscuro);
     font-size: 2rem;
@@ -279,7 +282,7 @@ h3 {
     padding: 1rem;
 }
 
-.formulario__submit{
+.formulario__submit {
     background-color: var(--celadon);
     border: none;
     text-align: center;
@@ -290,7 +293,50 @@ h3 {
     grid-column: 1 / 3
 }
 
-.formulario__submit:hover{
+.formulario__submit:hover {
     cursor: pointer;
     background-color: #F55D;
+}
+
+/* aqui empece el estilo para el login y el form */
+.form__flex {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.form__contenedor {
+    background-color: var(--mintgreen);
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+
+}
+
+.form__campo {
+    margin-bottom: 15px;
+
+}
+
+.form__campo label {
+    display: block;
+    margin-bottom: 5px;
+    font-family: var(--fuentePrincipal);
+}
+
+.form__campo input {
+    width: 100%;
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.form__campo input[type="submit"] {
+    background-color: #4CAF50;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+.form__campo input[type="submit"]:hover {
+    background-color: #45a049;
 }
