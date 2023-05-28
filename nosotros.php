@@ -65,37 +65,33 @@ if (basename($_SERVER['PHP_SELF']) === 'form.php' && !isset($_SESSION['username'
             <div class="bloque">
                 <img class="bloque__imagen" src="img/icono_1.png" alt="porque comprar">
                 <h3 class="bloque__titulo"> Sencillez</h3>
-                <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. 
-                    Perferendis maxime et dignissimos pariatur impedit, est, odio, animi laboriosam ea rem cupiditate commodi.
-                        Veritatis dolorem possimus voluptatem, 
-                            nesciunt repudiandae doloremque quo.</p>
+                <p>Fue diseñado de manera que sea sencillo al ingresar a la pagina principal
+                    ya se esta mostrando productos para poder beneficiar a los vendedores.
+                </p>
             </div> <!--.bloque-->
 
             <div class="bloque">
                 <img class="bloque__imagen" src="img/icono_2.png" alt="porque comprar">
                 <h3 class="bloque__titulo"> Abierto a todo el Tecnologico</h3>
-                <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. 
-                    Perferendis maxime et dignissimos pariatur impedit, est, odio, animi laboriosam ea rem cupiditate commodi.
-                        Veritatis dolorem possimus voluptatem, 
-                            nesciunt repudiandae doloremque quo.</p>
+                <p>Cualquier alumno puede acceder por medio de la URL que tiene nuestro sitio asi que esta a un solo
+                    click para poder acceder.
+                </p>
             </div> <!--.bloque-->
 
             <div class="bloque">
                 <img class="bloque__imagen" src="img/icono_3.png" alt="porque comprar">
                 <h3 class="bloque__titulo"> Exposicion</h3>
-                <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. 
-                    Perferendis maxime et dignissimos pariatur impedit, est, odio, animi laboriosam ea rem cupiditate commodi.
-                        Veritatis dolorem possimus voluptatem, 
-                            nesciunt repudiandae doloremque quo.</p>
+                <p>Al no estar limitado como el grupo de whatsapp en cuanto a integrantes toda persona puede ingresar y visualizar
+                    todos los productos de cualquier vendedor del tecnologico.
+                </p>
             </div> <!--.bloque-->
 
             <div class="bloque">
                 <img class="bloque__imagen" src="img/icono_4.png" alt="porque comprar">
                 <h3 class="bloque__titulo"> De Facil Acesso</h3>
-                <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. 
-                    Perferendis maxime et dignissimos pariatur impedit, est, odio, animi laboriosam ea rem cupiditate commodi.
-                        Veritatis dolorem possimus voluptatem, 
-                            nesciunt repudiandae doloremque quo.</p>
+                <p>Tanto para vendedores, como para estudiantes es super sencillo el acceder y comunicarse por el medio que el
+                    vendedor prefiera ya que podra asignar el metodo que prefiera en su producto.
+                </p>
             </div> <!--.bloque-->
         </div> <!--.bloques-->
 
