@@ -1,3 +1,15 @@
+<?php
+session_start(); // Iniciar sesión
+
+// Verificar si la página actual es form.php y no hay una sesión activa
+if (basename($_SERVER['PHP_SELF']) === 'form.php' && !isset($_SESSION['username'])) {
+    // Redireccionar al usuario a la página de inicio de sesión
+    header("Location: login.html");
+    exit;
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -23,8 +35,9 @@
 
     <nav class="navegacion">
         <a class="navegacion__enlace" href="index.php">Productos</a>
-        <a class="navegacion__enlace" href="nosotros.html">Nosotros</a>
+        <a class="navegacion__enlace" href="nosotros.php">Nosotros</a>
         <?php if (isset($_SESSION['username'])): ?>
+            <a class="navegacion__enlace" href="form.php">Formulario</a>
             <a class="navegacion__enlace" href="cerrar_sesion.php">Cerrar sesión</a>
         <?php else: ?>
             <a class="navegacion__enlace" href="login.html">Iniciar Sesión</a>
@@ -66,15 +79,15 @@
         $categoria = $producto['categoria'];
     ?>
 
-    <h1><?php echo $nombre; ?></h1>
+    
 
-    <div class="producto-detalle">
-        <img class="producto-detalle__imagen" src="<?php echo $imagen; ?>" alt="Imagen del Producto">
-        <div class="producto-detalle__informacion">
-            <p class="producto-detalle__nombre"><?php echo $nombre; ?></p>
-            <p class="producto-detalle__precio">$<?php echo $precio; ?></p>
-            <p class="producto-detalle__descripcion"><?php echo $descripcion; ?></p>
-            <p class="producto-detalle__categoria"><?php echo $categoria; ?></p>
+    <div class="contenedor">
+        <h1><?php echo $nombre; ?></h1>
+        <div class="camisa">
+            <img class="camisa__imagen" src="<?php echo $imagen; ?>" alt="Imagen del Producto">
+            <p class="camisa__contenido">$<?php echo $precio; ?></p>
+            <p class="camisa__contenido"><?php echo $descripcion; ?></p>
+            <p class="camisa__contenido"><?php echo $categoria; ?></p>
         </div>
     </div>
 

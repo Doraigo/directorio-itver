@@ -1,14 +1,14 @@
 <?php
-// Iniciar sesión
-session_start();
+session_start(); // Iniciar sesión
 
-// Verificar si no hay una sesión activa
-if (!isset($_SESSION['username'])) {
+// Verificar si la página actual es form.php y no hay una sesión activa
+if (basename($_SERVER['PHP_SELF']) === 'form.php' && !isset($_SESSION['username'])) {
     // Redireccionar al usuario a la página de inicio de sesión
     header("Location: login.html");
     exit;
 }
 ?>
+
 <!DOCTYPE html>
 <html>
 
@@ -26,6 +26,24 @@ if (!isset($_SESSION['username'])) {
 </head>
 
 <body>
+    <header class="header">
+        <a href="index.php">
+            <img class="header__logo" src="img/logo.png" alt="Logotipo">
+        </a>
+    </header>
+
+    <nav class="navegacion">
+        <a class="navegacion__enlace" href="index.php">Productos</a>
+        <a class="navegacion__enlace" href="nosotros.php">Nosotros</a>
+        <?php if (isset($_SESSION['username'])): ?>
+            <a class="navegacion__enlace navegacion__enlace--activo" href="form.php">Formulario</a>
+            <a class="navegacion__enlace" href="cerrar_sesion.php">Cerrar sesión</a>
+        <?php else: ?>
+            <a class="navegacion__enlace" href="login.html">Iniciar Sesión</a>
+        <?php endif; ?>
+    </nav>
+
+
     <h1>Formulario de alta de productos</h1>
     <form action="validarForm.php" method="POST" enctype="multipart/form-data">
         <label for="nombre">Nombre:</label>
