@@ -172,6 +172,30 @@ h3 {
     margin: 0 auto;
 }
 
+.producto__descripcion {
+
+    font-family: var(--fuentePrincipal);
+
+    margin: 1rem 0;
+
+    text-align: center;
+
+    line-height: 1.2;
+
+}
+s
+.producto__categoria {
+
+    font-family: var(--fuentePrincipal);
+
+    margin-top: 4rem 0;
+
+    text-align: center;
+
+    line-height: 1.2;
+
+}
+
 
 /*Graficos*/
 .grafico {
