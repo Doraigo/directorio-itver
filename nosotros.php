@@ -47,19 +47,12 @@ if (basename($_SERVER['PHP_SELF']) === 'form.php' && !isset($_SESSION['username'
         <h1> Sobre Nosotros</h1>
         <div class="nosotros">
             <div class="nosotros__contenido">
-                <p>Quisque maximus lacus ac justo facilisis, sed mattis lacus luctus. Sed a
-                    magna commodo, tristique magna at, euismod tortor. Sed interdum neque vel iaculis tristique.
-                    Maecenas sit amet leo id augue condimentum consectetur. Morbi sollicitudin in quam sed porta. Sed at
-                    iaculis ligula, in suscipit tortor. Vivamus scelerisque eget ipsum eget placerat. 
-                    libero. Ut euismod aliquet sodales.</p>
-                <p>
-                    Nulla turpis libero, tristique hendrerit libero sed, bibendum condimentum nunc. Aliquam gravida
-                    neque nisl, et sodales justo auctor sed. Proin varius dui risus, ac tincidunt massa molestie quis.
-                    In egestas laoreet ligula. Phasellus convallis lacus ipsum, et vulputate augue fermentum a. Quisque
-                    rutrum sit amet purus gravida tincidunt. Vivamus venenatis ac nulla nec posuere. Suspendisse
-                    finibus, enim a placerat consequat, mauris turpis aliquet mi, sit amet ornare elit nibh nec felis.
-
+                <p>En resumen, el equipo de desarrolladores trabajó en conjunto para crear una página web que
+                    proporciona una plataforma fácil de usar y accesible para que los pequeños emprendedores tengan mas alcance 
+                    y promocionen sus negocios. A lo largo del proyecto, aplicaron los principios de gestión de proyectos
+                     de software para garantizar una entrega exitosa y satisfacer las necesidades de los usuarios finales.
                 </p>
+                
             </div>
             <img class="nosotros__imagen" src="img/nosotros.jpg" alt="nosotros">
         </div>
