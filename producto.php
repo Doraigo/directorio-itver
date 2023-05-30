@@ -9,7 +9,6 @@ if (basename($_SERVER['PHP_SELF']) === 'form.php' && !isset($_SESSION['username'
 }
 ?>
 
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -24,6 +23,7 @@ if (basename($_SERVER['PHP_SELF']) === 'form.php' && !isset($_SESSION['username'
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Krub&family=Staatliches&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="css/styles.css">
+    <script src="node_modules/jquery/dist/jquery.min.js"></script>
 </head>
 
 <body>
@@ -62,10 +62,10 @@ if (basename($_SERVER['PHP_SELF']) === 'form.php' && !isset($_SESSION['username'
         }
 
         // Consulta para obtener los detalles del producto
-        $sql = "SELECT p.nombre, p.precio, p.descripcion, p.imagen, cat.nombreCategoria AS categoria 
-            FROM productos p
-            INNER JOIN categorias cat ON p.categoriaId = cat.idCategoria
-            WHERE p.idProducto = $idProducto";
+        $sql = "SELECT p.nombre, p.precio, p.descripcion, p.imagen, p.telefono, cat.nombreCategoria AS categoria 
+        FROM productos p
+        INNER JOIN categorias cat ON p.categoriaId = cat.idCategoria
+        WHERE p.idProducto = $idProducto";
 
         $resultado = $conexion->query($sql);
 
@@ -77,25 +77,31 @@ if (basename($_SERVER['PHP_SELF']) === 'form.php' && !isset($_SESSION['username'
             $descripcion = $producto['descripcion'];
             $imagen = $producto['imagen'];
             $categoria = $producto['categoria'];
+            $telefono = $producto['telefono'];
             ?>
 
-
-
-            <div class="contenedor">
-                <h1>
-                    <?php echo $nombre; ?>
-                </h1>
-                <div class="camisa">
-                    <img class="camisa__imagen" src="<?php echo $imagen; ?>" alt="Imagen del Producto">
-                    <p class="camisa__contenido__precio">$
+            <h1>
+                <?php echo $nombre; ?>
+            </h1>
+            <div class="contenedor--producto">
+                <img class="vistaproducto__imagen" src="<?php echo $imagen; ?>" alt="Imagen del Producto">
+                <div class="producto__detalles">
+                    <p class="vistaproducto__precio">$
                         <?php echo $precio; ?>
                     </p>
-                    <p class="camisa__contenido">
+                    <p class="vistaproducto__descripcion">
                         <?php echo $descripcion; ?>
                     </p>
-                    <p class="camisa__contenido__categoria">
+                    <p class="vistaproducto__categoria">
                         <?php echo $categoria; ?>
                     </p>
+                    <button class="vistaproducto__contactar">
+                        <?php echo $telefono; ?>
+                    </button>
+
+                    <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
+                        <button class="vistaproducto__eliminar">Eliminar Producto</button>
+                    <?php endif; ?>
                 </div>
             </div>
 
@@ -105,12 +111,31 @@ if (basename($_SERVER['PHP_SELF']) === 'form.php' && !isset($_SESSION['username'
         }
         ?>
 
-
     </main>
 
     <footer class="footer">
         <p class="footer__texto">Directorio ITVER - Todos los derechos Reservados (Equipo 2) 2023</p>
     </footer>
+    <script>
+        $(document).ready(function () {
+            const vistaproducto__contactar = $('.vistaproducto__contactar');
+            const telefono = '<?php echo $telefono; ?>';
+
+            vistaproducto__contactar.on('click', function () {
+                // Redirigir a WhatsApp con el número de teléfono obtenido de PHP
+                window.location.href = `https://wa.me/${telefono}`;
+            });
+
+            <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
+                const vistaproducto__eliminar = $('.vistaproducto__eliminar');
+
+                vistaproducto__eliminar.on('click', function () {
+                    // Lógica para eliminar el producto
+                    // Aquí puedes agregar el código necesario para eliminar el producto de la base de datos
+                });
+            <?php endif; ?>
+        });
+    </script>
 </body>
 
 </html>

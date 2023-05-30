@@ -9,7 +9,6 @@ use Aws\Exception\AwsException;
 $bucketName = 'directorio-itver'; // Reemplaza con el nombre de tu bucket en S3
 $region = 'us-east-1'; // Reemplaza con la región de tu bucket en S3
 
-
 $s3 = new S3Client([
     'version' => 'latest',
     'region' => $region,
@@ -19,16 +18,50 @@ $s3 = new S3Client([
     ],
 ]);
 
+session_start(); // Iniciar sesión
+
+// Verificar si la página actual es form.php y no hay una sesión activa
+if (basename($_SERVER['PHP_SELF']) === 'form.php' && !isset($_SESSION['username'])) {
+    // Redireccionar al usuario a la página de inicio de sesión
+    header("Location: login.html");
+    exit;
+}
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Obtener los datos del formulario
-    $nombre = $_POST['nombre'];
-    $precio = $_POST['precio'];
-    $descripcion = $_POST['descripcion'];
-    $categoriaId = $_POST['categoria']; // Aquí se obtiene el ID de la categoría seleccionada
+    // Obtener los datos del formulario y validarlos
+    $nombre = mysqli_real_escape_string($_POST['nombre']);
+    $precio = mysqli_real_escape_string($_POST['precio']);
+    $descripcion = mysqli_real_escape_string($_POST['descripcion']);
+    $telefono = mysqli_real_escape_string($_POST['telefono']);
+    $categoriaId = mysqli_real_escape_string($_POST['categoria']); // Aquí se obtiene el ID de la categoría seleccionada
+
+    // Validar los datos ingresados
+    if (empty($nombre) || empty($precio) || empty($descripcion) || empty($telefono) || empty($categoriaId)) {
+        echo "Por favor, completa todos los campos.";
+        exit;
+    }
+
+    // Validar el precio
+    if (!is_numeric($precio) || $precio < 0) {
+        echo "Por favor, introduce un precio válido.";
+        exit;
+    }
+
+    // Validar el teléfono
+    if (!preg_match('/^\d{10}$/', $telefono)) {
+        echo "Por favor, introduce un número de teléfono válido (10 dígitos).";
+        exit;
+    }
 
     // Obtener información del archivo subido
     $nombreArchivo = $_FILES['imagen']['name'];
     $archivoTemporal = $_FILES['imagen']['tmp_name'];
+
+    // Validar el archivo subido
+    if (empty($nombreArchivo) || empty($archivoTemporal)) {
+        echo "Por favor, selecciona una imagen.";
+        exit;
+    }
 
     // Ruta dentro del bucket donde se almacenará la imagen
     $carpeta = 'imagenes/';
@@ -47,16 +80,40 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $urlArchivo = $s3->getObjectUrl($bucketName, $rutaArchivo);
 
         // Guardar los demás datos y la URL del archivo en la base de datos
-        $test = "1";
-        $mysql = new mysqli("localhost", "root", "", "ItverAmarillo", 3306);
-        $query = "INSERT INTO productos (nombre, precio, descripcion, imagen, usuarioId, categoriaId) VALUES (?, ?, ?, ?, ?, ?)";
-        $statement = $mysql->prepare($query);
-        $statement->bind_param("sissis", $nombre, $precio, $descripcion, $urlArchivo, $test, $categoriaId);
+        $mysqli = new mysqli("localhost", "root", "", "ItverAmarillo", 3306);
+
+        // Verificar si hay error en la conexión
+        if ($mysqli->connect_error) {
+            die('Error de conexión: ' . $mysqli->connect_error);
+        }
+
+        // Consulta SQL con sentencia preparada
+        $query = "INSERT INTO productos (nombre, precio, descripcion, imagen, telefono, usuarioId, categoriaId) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        $statement = $mysqli->prepare($query);
+
+        // Verificar si hay error en la preparación de la consulta
+        if (!$statement) {
+            die('Error en la consulta: ' . $mysqli->error);
+        }
+
+        // Vincular los parámetros a la consulta preparada
+        $statement->bind_param("sisssis", $nombre, $precio, $descripcion, $urlArchivo, $telefono, $usuarioId, $categoriaId);
+
+        // Ejecutar la consulta
         $statement->execute();
 
-        // Redireccionar a otra página o mostrar un mensaje de éxito
-        header("Location: form.php");
-        exit();
+        // Verificar si se insertaron filas correctamente
+        if ($statement->affected_rows > 0) {
+            // Redireccionar a otra página o mostrar un mensaje de éxito
+            header("Location: form.php");
+            exit;
+        } else {
+            echo "Error al guardar los datos en la base de datos.";
+        }
+
+        // Cerrar la consulta y la conexión a la base de datos
+        $statement->close();
+        $mysqli->close();
     } catch (AwsException $e) {
         // Manejar cualquier error ocurrido durante la subida del archivo
         echo "Error al subir el archivo a S3: " . $e->getMessage();

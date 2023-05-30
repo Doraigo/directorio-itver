@@ -84,8 +84,8 @@ if (basename($_SERVER['PHP_SELF']) === 'form.php' && !isset($_SESSION['username'
                                 <p class="producto__nombre">
                                     <?php echo $nombre; ?>
                                 </p>
-                                <p class="producto__precio">
-                                    <?php echo $precio; ?>$
+                                <p class="producto__precio">$
+                                    <?php echo $precio; ?>
                                 </p>
                                 <p class="producto__descripcion">
                                     <?php echo $descripcion; ?>
