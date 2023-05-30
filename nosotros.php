@@ -16,8 +16,8 @@ if (basename($_SERVER['PHP_SELF']) === 'form.php' && !isset($_SESSION['username'
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>FrontEnd Store</title>
-    <link rel="stylesheet" href=css/normailze.css" />
+    <title>Sobre Nosotros</title>
+    <link rel="stylesheet" href=css/normalize.css />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Krub&family=Staatliches&display=swap" rel="stylesheet" />
@@ -48,18 +48,21 @@ if (basename($_SERVER['PHP_SELF']) === 'form.php' && !isset($_SESSION['username'
         <div class="nosotros">
             <div class="nosotros__contenido">
                 <p>En resumen, el equipo de desarrolladores trabajó en conjunto para crear una página web que
-                    proporciona una plataforma fácil de usar y accesible para que los pequeños emprendedores tengan mas alcance 
-                    y promocionen sus negocios. A lo largo del proyecto, aplicaron los principios de gestión de proyectos
-                     de software para garantizar una entrega exitosa y satisfacer las necesidades de los usuarios finales.
+                    proporciona una plataforma fácil de usar y accesible para que los pequeños emprendedores tengan mas
+                    alcance
+                    y promocionen sus negocios. A lo largo del proyecto, aplicaron los principios de gestión de
+                    proyectos
+                    de software para garantizar una entrega exitosa y satisfacer las necesidades de los usuarios
+                    finales.
                 </p>
-                
+
             </div>
             <img class="nosotros__imagen" src="img/nosotros.jpg" alt="nosotros">
         </div>
     </main>
 
     <section class="contenedor comprar">
-        <h2 class="comprar__titutlo"> ¿Por que usar esta pagina?</h2> 
+        <h2 class="comprar__titutlo"> ¿Por que usar esta pagina?</h2>
 
         <div class="bloques">
             <div class="bloque">
@@ -81,7 +84,8 @@ if (basename($_SERVER['PHP_SELF']) === 'form.php' && !isset($_SESSION['username'
             <div class="bloque">
                 <img class="bloque__imagen" src="img/icono_3.png" alt="porque comprar">
                 <h3 class="bloque__titulo"> Exposicion</h3>
-                <p>Al no estar limitado como el grupo de whatsapp en cuanto a integrantes toda persona puede ingresar y visualizar
+                <p>Al no estar limitado como el grupo de whatsapp en cuanto a integrantes toda persona puede ingresar y
+                    visualizar
                     todos los productos de cualquier vendedor del tecnologico.
                 </p>
             </div> <!--.bloque-->
@@ -89,7 +93,8 @@ if (basename($_SERVER['PHP_SELF']) === 'form.php' && !isset($_SESSION['username'
             <div class="bloque">
                 <img class="bloque__imagen" src="img/icono_4.png" alt="porque comprar">
                 <h3 class="bloque__titulo"> De Facil Acesso</h3>
-                <p>Tanto para vendedores, como para estudiantes es super sencillo el acceder y comunicarse por el medio que el
+                <p>Tanto para vendedores, como para estudiantes es super sencillo el acceder y comunicarse por el medio
+                    que el
                     vendedor prefiera ya que podra asignar el metodo que prefiera en su producto.
                 </p>
             </div> <!--.bloque-->
@@ -98,8 +103,15 @@ if (basename($_SERVER['PHP_SELF']) === 'form.php' && !isset($_SESSION['username'
     </section>
 
     <footer class="footer">
+        <button id="contactarBtn" class="boton-contactar">Contactar</button>
         <p class="footer__texto">Directorio ITVER - Todos los derechos Reservados (Equipo 2) 2023</p>
     </footer>
+
+    <script>
+        document.getElementById('contactarBtn').addEventListener('click', function () {
+            window.location.href = 'mailto:directorioitver1@gmail.com';
+        });
+    </script>
 </body>
 
 </html>

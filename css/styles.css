@@ -35,7 +35,7 @@ body {
 
 p {
     font-size: 1.8rem;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: var(--fuentePrincipal);
     color: var(--blanco);
 }
 
@@ -50,6 +50,13 @@ img {
 .contenedor {
     max-width: 120rem;
     margin: 0 auto;
+}
+
+.contenedor--producto {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    padding: 2rem;
+    align-self: center;
 }
 
 h1,
@@ -139,24 +146,22 @@ h3 {
 /*Productos*/
 
 .producto {
+    display: flex;
     background-color: var(--celadon);
     padding: 1rem;
+    align-items: flex-end;
     font-family: var(--fuentePrincipal);
 }
 
-.producto__nombre {
-    font-size: 4rem;
-
-}
-
-.producto__precio {
-    font-size: 2.8rem;
-    color: var(--gunmetal);
+.producto__informacion {
+    display: grid;
+    grid-template-rows: auto auto auto;
 }
 
 .producto__nombre,
-.producto__precio {
-    font-family: var(--fuentePrincipal);
+.producto__precio,
+.producto__descripcion,
+.producto__categoria {
     margin: 1rem 0;
     text-align: center;
     line-height: 1.2;
@@ -174,22 +179,22 @@ h3 {
     margin: 0 auto;
 }
 
+.producto__nombre {
+    grid-row: 1 / 2;
+}
+
 .producto__descripcion {
-    font-family: var(--fuentePrincipal);
-    margin: 1rem 0;
-    text-align: center;
-    line-height: 1.2;
+    grid-row: 3 / 4;
     font-size: 2.5rem;
 }
 
 s .producto__categoria {
-    font-family: var(--fuentePrincipal);
-    margin-top: 4rem 0;
-    text-align: center;
-    line-height: 1.2;
     font-size: 3rem;
 }
 
+.producto__precio {
+    grid-row: 5/ 6;
+}
 
 /*Graficos*/
 .grafico {
@@ -224,12 +229,19 @@ s .producto__categoria {
 .nosotros {
     display: grid;
     grid-template-rows: repeat(2, auto);
+
 }
 
 @media (min-width: 768px) {
     .nosotros {
         grid-template-columns: repeat(2, auto);
         column-gap: 2rem;
+    }
+
+    .nosotros__contenido p {
+        padding-top: 5rem;
+        text-align: justify;
+        color: var(--oscuro);
     }
 }
 
@@ -257,8 +269,9 @@ s .producto__categoria {
     }
 }
 
-.bloque {
+.bloque p {
     text-align: center;
+    color: var(--oscuro);
 }
 
 .bloque__titulo {
@@ -268,49 +281,71 @@ s .producto__categoria {
 /** Pagina del Producto **/
 @media (min-width: 768px) {
     .camisa {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        grid-template-rows: repeat(3, 1fr);
+        grid-column: 1/2;
         column-gap: 2rem;
         row-gap: 0.5rem;
 
     }
 }
 
-.camisa__contenido {
+.producto__detalles {
     color: var(--oscuro);
     font-family: var(--fuentePrincipal);
-    font-size: 4rem;
     grid-column: 2/3;
-    grid-row: -2/-3;
-    text-align: center;
-    margin: auto;
+    display: grid;
+    padding: auto;
+    grid-template-rows: repeat(4, auto);
+    padding: 1rem;
 }
 
-.camisa__imagen {
+.vistaproducto__descripcion {
+    color: var(--oscuro);
+    font-family: var(--fuentePrincipal);
+    font-size: 2.5rem;
+    text-align: center;
     margin: auto;
+    grid-row: 2/3;
+}
+
+.vistaproducto__imagen {
+    margin: auto;
+    max-width: 100%;
     grid-column: 1 / 2;
-    grid-row: 1/4;
+    padding: .5rem;
 }
 
-.camisa__contenido__precio {
+.vistaproducto__precio {
     color: var(--oscuro);
     font-family: var(--fuentePrincipal);
     margin: auto;
-    font-size: 8rem;
-    grid-column: 2/3;
-    grid-row: 1 / 2;
-    margin: 2rem;
+    font-size: 4rem;
     text-align: center;
+    grid-row: 1/2;
 }
 
-.camisa__contenido__categoria {
+.vistaproducto__categoria {
+    grid-row: 3/4;
     color: var(--oscuro);
     font-family: var(--fuentePrincipal);
     margin: auto;
-    font-size: 6rem;
-    grid-column: 2/3;
-    grid-row: -2/ -1;
+    font-size: 4rem;
+
+}
+
+/* Estilo para el botón "Contacto" */
+.vistaproducto__contactar {
+    font-family: var(--fuentePrincipal);
+    padding: 10px 20px;
+    background-color: var(--celadon);
+    color: var(--blanco);
+    border: none;
+    border-radius: 4px;
+    font-size: 4rem;
+    cursor: pointer;
+}
+
+.vistaproducto__contactar:hover {
+    background-color: var(--mintgreen);
 }
 
 .formulario {
@@ -390,5 +425,23 @@ s .producto__categoria {
 }
 
 .form__campo input[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+.boton-contactar {
+    font-style: var(--fuentePrincipal);
+    background-color: var(--gunmetal);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin-top: 20px;
+    cursor: pointer;
+}
+
+.boton-contactar:hover {
     background-color: #45a049;
 }
