@@ -29,11 +29,11 @@ if (basename($_SERVER['PHP_SELF']) === 'form.php' && !isset($_SESSION['username'
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Obtener los datos del formulario y validarlos
-    $nombre = $_POST['nombre'];
-    $precio = $_POST['precio'];
-    $descripcion = $_POST['descripcion'];
-    $telefono = $_POST['telefono'];
-    $categoriaId = $_POST['categoria']; // Aquí se obtiene el ID de la categoría seleccionada
+    $nombre = mysqli_real_escape_string($_POST['nombre']);
+    $precio = mysqli_real_escape_string($_POST['precio']);
+    $descripcion = mysqli_real_escape_string($_POST['descripcion']);
+    $telefono = mysqli_real_escape_string($_POST['telefono']);
+    $categoriaId = mysqli_real_escape_string($_POST['categoria']); // Aquí se obtiene el ID de la categoría seleccionada
 
     // Validar los datos ingresados
     if (empty($nombre) || empty($precio) || empty($descripcion) || empty($telefono) || empty($categoriaId)) {
