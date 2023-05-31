@@ -24,6 +24,7 @@ if (basename($_SERVER['PHP_SELF']) === 'form.php' && !isset($_SESSION['username'
     <link href="https://fonts.googleapis.com/css2?family=Krub&family=Staatliches&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="css/styles.css">
     <script src="node_modules/jquery/dist/jquery.min.js"></script>
+
 </head>
 
 <body>
@@ -99,8 +100,11 @@ if (basename($_SERVER['PHP_SELF']) === 'form.php' && !isset($_SESSION['username'
                         <?php echo $telefono; ?>
                     </button>
 
-                    <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
-                        <button class="vistaproducto__eliminar">Eliminar Producto</button>
+                    <?php if (isset($_SESSION['username'])): ?>
+                        <button class="vistaproducto__editar" data-id="<?php echo $idProducto; ?>">Editar Producto</button>
+                        <input type="hidden" name="id" value="<?php echo $idProducto; ?>">
+                        <button class="vistaproducto__eliminar" data-id="<?php echo $idProducto; ?>">Eliminar producto</button>
+                        <input type="hidden" name="id" value="<?php echo $idProducto; ?>">
                     <?php endif; ?>
                 </div>
             </div>
@@ -113,9 +117,43 @@ if (basename($_SERVER['PHP_SELF']) === 'form.php' && !isset($_SESSION['username'
 
     </main>
 
-    <footer class="footer">
+    <footer class=" footer">
         <p class="footer__texto">Directorio ITVER - Todos los derechos Reservados (Equipo 2) 2023</p>
     </footer>
+    <?php
+    // Verificar si hay una sesión iniciada
+    session_start();
+    if (isset($_SESSION['username'])) {
+        // Mostrar el botón de edición solo si el usuario tiene una sesión iniciada
+        ?>
+        <script>
+
+            // Agregar un evento de escucha al botón "vistaproducto__eliminar"
+            const eliminarBtn = document.querySelector('.vistaproducto__eliminar');
+            eliminarBtn.addEventListener('click', function () {
+                // Obtener el valor del atributo "data-id" del botón
+                const confirmacion = confirm('¿Estás seguro de que deseas eliminar este producto?');
+                if (confirmacion) {
+                    // Redirigir a la página validarEditarProducto.php con el parámetro idProducto
+                    const idProducto = eliminarBtn.dataset.id;
+                    window.location.href = `eliminarProducto.php?id=${idProducto}`;
+                }
+            });
+            // Obtener el botón "Editar Producto" por su clase
+            const editarBtn = document.querySelector('.vistaproducto__editar');
+
+            // Obtener el valor del atributo "data-id" del botón
+            const idProducto = editarBtn.dataset.id;
+
+            // Asignar la redirección al formulario de edición
+            editarBtn.addEventListener('click', () => {
+                window.location.href = `editarProducto.php?id=${idProducto}`;
+            });
+        </script>
+        <?php
+    }
+    ?>
+
     <script>
         $(document).ready(function () {
             const vistaproducto__contactar = $('.vistaproducto__contactar');
@@ -125,15 +163,6 @@ if (basename($_SERVER['PHP_SELF']) === 'form.php' && !isset($_SESSION['username'
                 // Redirigir a WhatsApp con el número de teléfono obtenido de PHP
                 window.location.href = `https://wa.me/${telefono}`;
             });
-
-            <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
-                const vistaproducto__eliminar = $('.vistaproducto__eliminar');
-
-                vistaproducto__eliminar.on('click', function () {
-                    // Lógica para eliminar el producto
-                    // Aquí puedes agregar el código necesario para eliminar el producto de la base de datos
-                });
-            <?php endif; ?>
         });
     </script>
 </body>
