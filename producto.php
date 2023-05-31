@@ -7,6 +7,8 @@ if (basename($_SERVER['PHP_SELF']) === 'form.php' && !isset($_SESSION['username'
     header("Location: login.html");
     exit;
 }
+
+
 ?>
 
 <!DOCTYPE html>
@@ -98,10 +100,10 @@ if (basename($_SERVER['PHP_SELF']) === 'form.php' && !isset($_SESSION['username'
                     <button class="vistaproducto__contactar">
                         <?php echo $telefono; ?>
                     </button>
-
-                    <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
-                        <button class="vistaproducto__eliminar">Eliminar Producto</button>
+                    <?php if (isset($_SESSION['username'])): ?>
+                        <button class="vistaproducto__editar">Editar Producto</button>
                     <?php endif; ?>
+
                 </div>
             </div>
 
@@ -127,13 +129,17 @@ if (basename($_SERVER['PHP_SELF']) === 'form.php' && !isset($_SESSION['username'
             });
 
             <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
-                const vistaproducto__eliminar = $('.vistaproducto__eliminar');
+                const vistaproducto__editar = $('.vistaproducto__editar');
 
-                vistaproducto__eliminar.on('click', function () {
-                    // Lógica para eliminar el producto
-                    // Aquí puedes agregar el código necesario para eliminar el producto de la base de datos
+                vistaproducto__editar.on('click', function () {
+                    // Obtener el ID del producto
+                    const idProducto = <?php echo $idProducto; ?>;
+
+                    // Redirigir al usuario a la página de edición del producto con los valores predefinidos
+                    window.location.href = `editar_producto.php?id=${idProducto}`;
                 });
             <?php endif; ?>
+
         });
     </script>
 </body>
