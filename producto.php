@@ -119,29 +119,28 @@ if (basename($_SERVER['PHP_SELF']) === 'form.php' && !isset($_SESSION['username'
         <p class="footer__texto">Directorio ITVER - Todos los derechos Reservados (Equipo 2) 2023</p>
     </footer>
     <script>
-        $(document).ready(function () {
-            const vistaproducto__contactar = $('.vistaproducto__contactar');
-            const telefono = '<?php echo $telefono; ?>';
+    $(document).ready(function () {
+        const vistaproducto__contactar = $('.vistaproducto__contactar');
+        const telefono = '<?php echo $telefono; ?>';
 
-            vistaproducto__contactar.on('click', function () {
-                // Redirigir a WhatsApp con el número de teléfono obtenido de PHP
-                window.location.href = `https://wa.me/${telefono}`;
+        vistaproducto__contactar.on('click', function () {
+            // Redirigir a WhatsApp con el número de teléfono obtenido de PHP
+            window.location.href = `https://wa.me/${telefono}`;
+        });
+
+        <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
+            $('.vistaproducto__editar').on('click', function () {
+                // Obtener el ID del producto
+                const idProducto = <?php echo $idProducto; ?>;
+
+                // Redirigir al usuario a la página de edición del producto
+                window.location.href = `editar_producto.php?id=${idProducto}`;
             });
-
-            <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
-                const vistaproducto__editar = $('.vistaproducto__editar');
-
-                vistaproducto__editar.on('click', function () {
-                    // Obtener el ID del producto
-                    const idProducto = <?php echo $idProducto; ?>;
-
-                    // Redirigir al usuario a la página de edición del producto con los valores predefinidos
-                    window.location.href = `editar_producto.php?id=${idProducto}`;
-                });
-            <?php endif; ?>
+        <?php endif; ?>
 
         });
     </script>
+
 </body>
 
 </html>

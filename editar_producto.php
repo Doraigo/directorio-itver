@@ -1,73 +1,101 @@
 <?php
-session_start(); // Iniciar sesión
+$conexion = new mysqli('localhost', 'root', '', 'ItverAmarillo');
+if ($conexion->connect_errno) {
+    die("Error al conectar con la base de datos: " . $conexion->connect_error);
+}
 
-// Verificar si la página actual es form.php y no hay una sesión activa
-if (basename($_SERVER['PHP_SELF']) === 'form.php' && !isset($_SESSION['username'])) {
-    // Redireccionar al usuario a la página de inicio de sesión
-    header("Location: login.html");
-    exit;
+$idProducto = $_GET['id'];
+
+// Obtener datos del producto de la base de datos
+$consultaProducto = "SELECT * FROM productos WHERE idProducto = $idProducto";
+$resultadoProducto = $conexion->query($consultaProducto);
+if (!$resultadoProducto) {
+    die("Error al obtener los datos del producto: " . $conexion->error);
+}
+
+if ($resultadoProducto->num_rows === 0) {
+    die("El producto seleccionado no existe");
+}
+
+$producto = $resultadoProducto->fetch_assoc();
+$nombre = $producto['nombre'];
+$precio = $producto['precio'];
+$descripcion = $producto['descripcion'];
+$telefono = $producto['telefono'];
+$categoriaId = $producto['idCategoria'];
+$imagen = $producto['imagen'];
+
+// Obtener categorías de la base de datos
+$consultaCategorias = "SELECT * FROM categorias";
+$resultadoCategorias = $conexion->query($consultaCategorias);
+if (!$resultadoCategorias) {
+    die("Error al obtener las categorías: " . $conexion->error);
 }
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editar Producto</title>
-    <link rel="stylesheet" href="css/normalize.css">
-    <link rel="shortcut icon" href="img/favicon.png">
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Krub&family=Staatliches&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="css/styles.css">
+    <title>Editar producto</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <header class="header">
-        <a href="index.php">
-            <img class="header__logo" src="img/logo.png" alt="Logotipo">
-        </a>
+        <h1 class="titulo">Tienda en línea</h1>
     </header>
-
     <nav class="navegacion">
-        <a class="navegacion__enlace" href="index.php">Productos</a>
-        <a class="navegacion__enlace" href="nosotros.php">Nosotros</a>
-        <?php if (isset($_SESSION['username'])): ?>
-            <a class="navegacion__enlace navegacion__enlace--activo" href="form.php">Formulario</a>
-            <a class="navegacion__enlace" href="cerrar_sesion.php">Cerrar sesión</a>
-        <?php else: ?>
-            <a class="navegacion__enlace" href="login.html">Iniciar Sesión</a>
+        <?php if ($resultadoCategorias->num_rows > 0): ?>
+            <ul class="menu">
+                <?php while ($categoria = $resultadoCategorias->fetch_assoc()): ?>
+                    <li class="menu-item">
+                        <a href="categoria.php?id=<?php echo $categoria['idCategoria']; ?>"><?php echo $categoria['nombreCategoria']; ?></a>
+                    </li>
+                <?php endwhile; ?>
+            </ul>
         <?php endif; ?>
     </nav>
-
     <main class="contenedor">
-        <h1>Editar Producto</h1>
-        <div class="form">
-            <form action="actualizar_producto.php" method="POST">
-                <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>">
-                <div class="form__grupo">
-                    <label for="nombre">Nombre:</label>
-                    <input type="text" id="nombre" name="nombre" value="<?php echo $product['nombre']; ?>">
-                </div>
-                <div class="form__grupo">
-                    <label for="descripcion">Descripción:</label>
-                    <textarea id="descripcion" name="descripcion"><?php echo $product['descripcion']; ?></textarea>
-                </div>
-                <div class="form__grupo">
-                    <label for="precio">Precio:</label>
-                    <input type="number" id="precio" name="precio" value="<?php echo $product['precio']; ?>">
-                </div>
-                <button type="submit" class="form__boton">Guardar cambios</button>
-            </form>
-        </div>
+        <h1 class="titulo">Editar producto</h1>
+        <form class="formulario" action="actualizar_producto.php" method="POST" enctype="multipart/form-data">
+            <input type="hidden" name="id" value="<?php echo $idProducto; ?>">
+            <div class="campo">
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre" name="nombre" value="<?php echo $nombre; ?>" required>
+            </div>
+            <div class="campo">
+                <label for="precio">Precio:</label>
+                <input type="number" id="precio" name="precio" value="<?php echo $precio; ?>" required>
+            </div>
+            <div class="campo">
+                <label for="descripcion">Descripción:</label>
+                <textarea id="descripcion" name="descripcion" required><?php echo $descripcion; ?></textarea>
+            </div>
+            <div class="campo">
+                <label for="telefono">Teléfono:</label>
+                <input type="text" id="telefono" name="telefono" value="<?php echo $telefono; ?>" required>
+            </div>
+            <div class="campo">
+                <label for="categoria">Categoría:</label>
+                <select id="categoria" name="categoria" required>
+                    <?php while ($categoria = $resultadoCategorias->fetch_assoc()): ?>
+                        <option value="<?php echo $categoria['idCategoria']; ?>" <?php if ($categoria['idCategoria'] == $categoriaId) echo 'selected'; ?>><?php echo $categoria['nombreCategoria']; ?></option>
+                    <?php endwhile; ?>
+                </select>
+            </div>
+            <div class="campo">
+                <label for="imagen">Imagen:</label>
+                <input type="file" id="imagen" name="imagen">
+                <img src="img/productos/<?php echo $imagen; ?>" alt="Imagen del producto" class="imagen-actual">
+            </div>
+            <div class="campo enviar">
+                <input type="submit" class="boton" value="Guardar cambios">
+            </div>
+        </form>
     </main>
-
     <footer class="footer">
-        <p>Todos los derechos reservados. &copy; 2023</p>
+        <p>Todos los derechos reservados &copy; 2023</p>
     </footer>
-
-    <script src="js/jquery-3.6.0.min.js"></script>
-    <script src="js/scripts.js"></script>
 </body>
 </html>
