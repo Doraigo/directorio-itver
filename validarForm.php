@@ -5,6 +5,19 @@ require 'vendor/autoload.php';
 use Aws\S3\S3Client;
 use Aws\Exception\AwsException;
 
+// Datos de la base de datos
+$host = 'localhost';
+$usuario = 'root';
+$contrasena = '';
+$baseDatos = 'ItverAmarillo';
+
+// Crear conexión a la base de datos
+$mysqli = new mysqli($host, $usuario, $contrasena, $baseDatos, 3306);
+
+// Verificar si hay error en la conexión
+if ($mysqli->connect_error) {
+    die('Error de conexión: ' . $mysqli->connect_error);
+}
 // Configuración de AWS
 $bucketName = 'directorio-itver'; // Reemplaza con el nombre de tu bucket en S3
 $region = 'us-east-1'; // Reemplaza con la región de tu bucket en S3
@@ -29,11 +42,15 @@ if (basename($_SERVER['PHP_SELF']) === 'form.php' && !isset($_SESSION['username'
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Obtener los datos del formulario y validarlos
-    $nombre = mysqli_real_escape_string($_POST['nombre']);
-    $precio = mysqli_real_escape_string($_POST['precio']);
-    $descripcion = mysqli_real_escape_string($_POST['descripcion']);
-    $telefono = mysqli_real_escape_string($_POST['telefono']);
-    $categoriaId = mysqli_real_escape_string($_POST['categoria']); // Aquí se obtiene el ID de la categoría seleccionada
+    $nombre = mysqli_real_escape_string($mysqli, $_POST['nombre']);
+    $precio = mysqli_real_escape_string($mysqli, $_POST['precio']);
+    $descripcion = mysqli_real_escape_string($mysqli, $_POST['descripcion']);
+    $telefono = mysqli_real_escape_string($mysqli, $_POST['telefono']);
+    $categoriaId = mysqli_real_escape_string($mysqli, $_POST['categoria']); // Aquí se obtiene el ID de la categoría seleccionada
+
+    // Resto del código...
+
+
 
     // Validar los datos ingresados
     if (empty($nombre) || empty($precio) || empty($descripcion) || empty($telefono) || empty($categoriaId)) {
