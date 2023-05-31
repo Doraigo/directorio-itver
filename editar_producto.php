@@ -2,21 +2,24 @@
 session_start(); // Iniciar sesión
 
 // Verificar si la página actual es form.php y no hay una sesión activa
-if (basename($_SERVER['PHP_SELF']) === 'form.php' && !isset($_SESSION['username'])) {
+if (basename($_SERVER['PHP_SELF']) === 'producto.php' && !isset($_SESSION['username'])) {
     // Redireccionar al usuario a la página de inicio de sesión
-    header("Location: login.html");
+    header("Location: producto.html"); 
     exit;
 }
-?>
+?> 
+
+
+    
 
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detalles del Producto</title>
+    <title>Edicion/Baja de productos</title>
     <link rel="stylesheet" href="css/normalize.css">
     <link rel="shortcut icon" href="img/favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -32,20 +35,18 @@ if (basename($_SERVER['PHP_SELF']) === 'form.php' && !isset($_SESSION['username'
             <img class="header__logo" src="img/logo.png" alt="Logotipo">
         </a>
     </header>
-
     <nav class="navegacion">
         <a class="navegacion__enlace" href="index.php">Productos</a>
         <a class="navegacion__enlace" href="nosotros.php">Nosotros</a>
         <?php if (isset($_SESSION['username'])): ?>
-            <a class="navegacion__enlace" href="form.php">Formulario</a>
+            <a class="navegacion__enlace navegacion__enlace--activo" href="form.php">Formulario</a>
             <a class="navegacion__enlace" href="cerrar_sesion.php">Cerrar sesión</a>
         <?php else: ?>
             <a class="navegacion__enlace" href="login.html">Iniciar Sesión</a>
         <?php endif; ?>
     </nav>
 
-    <main class="contenedor">
-        <?php
+    <?php
         // Obtener el ID del producto enviado por GET
         $idProducto = $_GET['id'] ?? 0;
 
@@ -80,66 +81,48 @@ if (basename($_SERVER['PHP_SELF']) === 'form.php' && !isset($_SESSION['username'
             $telefono = $producto['telefono'];
             ?>
 
-            <h1>
-                <?php echo $nombre; ?>
-            </h1>
-            <div class="contenedor--producto">
-                <img class="vistaproducto__imagen" src="<?php echo $imagen; ?>" alt="Imagen del Producto">
-                <div class="producto__detalles">
-                    <p class="vistaproducto__precio">$
-                        <?php echo $precio; ?>
-                    </p>
-                    <p class="vistaproducto__descripcion">
-                        <?php echo $descripcion; ?>
-                    </p>
-                    <p class="vistaproducto__categoria">
-                        <?php echo $categoria; ?>
-                    </p>
-                    <button class="vistaproducto__contactar">
-                        <?php echo $telefono; ?>
-                    </button>
-                        <button class="vistaproducto__editar">Editar Producto</button>
-                        
+    <h1>Edicion/Baja de productos</h1>
+    <div class="form__flex">
+        <div class="form__contenedor">
+            <form id="formulario" action="validarEditarForm.php" method="POST" enctype="multipart/form-data">
+                <div class="form__campo">
+                    <label for="nombre">Nombre:</label>
+                    <input type="text" id="nombre" name="nombre" value="<?php echo $nombre?>" required><br><br>
                 </div>
-            </div>
-
-            <?php
-        } else {
+                <div class="form__campo">
+                    <label for="precio">Precio:</label>
+                    <input type="number" id="precio" name="precio" value="<?php echo $precio?>" required><br><br>
+                </div>
+                <div class="form__campo">
+                    <label for="descripcion">Descripción:</label>
+                    <textarea id="descripcion" name="descripcion" value="<?php echo $descripcion?>" required></textarea><br><br>
+                </div>
+                <div class="form__campo">
+                    <label for="telefono">Teléfono:</label>
+                    <input type="tel" id="telefono" name="telefono" value="<?php echo $telefono?>" pattern="[0-9]{10}" required><br><br>
+                </div>
+                <div class="form__campo">
+                    <label for="imagen">Imagen:</label>
+                    <input type="file" id="imagen" name="imagen" value="<?php echo $imagen?>" required><br><br>
+                </div>
+                <div class="form__campo">
+                    <label for="categoria">Categoría:</label>
+                    <select id="categoria" name="categoria" value="<?php echo $categoria?>" required>
+                        <?php include 'obtener_categoria.php'; ?>
+                    </select><br><br>
+                </div>
+                <div class="form__campo">
+                    <button class="vistaproducto__contactar">Actualizar producto</button>
+                    <button class="vistaproducto__contactar">Eliminar producto</button>
+                </div> 
+            </form>
+        
+        </div>
+    </div>
+    <?php
+        }  else {
             echo "No se encontró el producto.";
         }
         ?>
-
-    </main>
-
-    <footer class="footer">
-        <p class="footer__texto">Directorio ITVER - Todos los derechos Reservados (Equipo 2) 2023</p>
-    </footer>
-    <script>
-        $(document).ready(function () {
-            const vistaproducto__contactar = $('.vistaproducto__contactar');
-            const telefono = '<?php echo $telefono; ?>';
-            const edit = $('.vistaproducto__editar');
-
-            edit.on('click', function () {
-                // Redirigir a editar_producto.php
-                window.location.href = `editar_producto.php?id=<?php echo $idProducto; ?>`;
-            });
-
-            vistaproducto__contactar.on('click', function () {
-                // Redirigir a WhatsApp con el número de teléfono obtenido de PHP
-                window.location.href = `https://wa.me/${telefono}`;
-            });
-
-            <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
-                const vistaproducto__eliminar = $('.vistaproducto__eliminar');
-
-                vistaproducto__eliminar.on('click', function () {
-                    // Lógica para eliminar el producto
-                    // Aquí puedes agregar el código necesario para eliminar el producto de la base de datos
-                });
-            <?php endif; ?>
-        });
-    </script>
 </body>
-
 </html>

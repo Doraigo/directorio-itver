@@ -344,7 +344,22 @@ s .producto__categoria {
     cursor: pointer;
 }
 
+.vistaproducto__editar {
+    font-family: var(--fuentePrincipal);
+    padding: 10px 20px;
+    background-color: var(--celadon);
+    color: var(--blanco);
+    border: none;
+    border-radius: 4px;
+    font-size: 4rem;
+    cursor: pointer;
+}
+
 .vistaproducto__contactar:hover {
+    background-color: var(--mintgreen);
+}
+
+.vistaproducto__editar:hover {
     background-color: var(--mintgreen);
 }
 
