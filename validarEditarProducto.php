@@ -119,7 +119,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Verificar si se actualizaron filas correctamente
         if ($statement->affected_rows > 0) {
             // Redireccionar a otra página o mostrar un mensaje de éxito
-            header("Location: editarProducto.php?id=" . $idProducto . "&success=true");
+            header("Location: producto.php?id=" . $idProducto . "&success=true");
             exit;
         } else {
             echo "Error al actualizar los datos en la base de datos.";

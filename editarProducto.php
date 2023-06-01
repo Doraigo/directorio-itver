@@ -1,3 +1,13 @@
+<?php
+session_start(); // Iniciar sesión
+
+// Verificar si la página actual es form.php y no hay una sesión activa
+if (basename($_SERVER['PHP_SELF']) === 'form.php' && !isset($_SESSION['username'])) {
+    // Redireccionar al usuario a la página de inicio de sesión
+    header("Location: login.html");
+    exit;
+}
+?>
 <!DOCTYPE html>
 <html>
 
